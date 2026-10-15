@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mulund Civic Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-100 min-h-screen pb-20">
+
+    <!-- Mobile Header -->
+    <header class="bg-slate-900 text-white p-4 sticky top-0 z-50 shadow-md">
+        <div class="flex justify-between items-center max-w-md mx-auto">
+            <div>
+                <h1 class="text-lg font-bold">Mulund Civic Hub</h1>
+                <p class="text-xs text-slate-400">T-Ward Community Action</p>
+            </div>
+            <button onclick="toggleModal()" class="bg-blue-600 text-xs px-3 py-2 rounded-lg font-bold">+ Issue</button>
+        </div>
+    </header>
+
+    <!-- Issue Feed Container -->
+    <main class="max-w-md mx-auto p-4 space-y-4" id="postsContainer">
+        <p class="text-center text-slate-500 py-10">Loading Mulund issues...</p>
+    </main>
+
+    <!-- Post Modal -->
+    <div id="postModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-5 space-y-3">
+            <div class="flex justify-between items-center">
+                <h2 class="text-base font-bold text-slate-800">Raise a Local Issue</h2>
+                <button onclick="toggleModal()" class="text-slate-400 font-bold text-lg">&times;</button>
+            </div>
+            
+            <form id="issueForm" onsubmit="handleFormSubmit(event)" class="space-y-3">
+                <input type="text" id="title" required placeholder="Title (e.g. Garbage dump near station)" class="w-full border p-2 rounded-lg text-xs">
+                
+                <select id="category" class="w-full border p-2 rounded-lg text-xs">
+                    <option>Roads & Traffic</option>
+                    <option>Sanitation & Garbage</option>
+                    <option>Streetlights</option>
+                    <option>Water Supply</option>
+                </select>
+
+                <select id="areaId" class="w-full border p-2 rounded-lg text-xs">
+                    <option value="1">LBS Marg (West)</option>
+                    <option value="2">MG Road / Station (West)</option>
+                    <option value="3">PK Road (West)</option>
+                    <option value="4">Navghar Road (East)</option>
+                    <option value="5">Neelam Nagar (East)</option>
+                </select>
+
+                <textarea id="description" required rows="3" placeholder="Provide details..." class="w-full border p-2 rounded-lg text-xs"></textarea>
+                
+                <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-xs">
+                    Submit Issue
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
