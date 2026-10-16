@@ -89,6 +89,10 @@ async function handleFormSubmit(e) {
     document.getElementById('issueForm').reset();
     toggleModal();
     fetchPosts();
+    { // Handle Card Click (Shows alert so we know it's working)
+function openIssueModal(postId) {
+    alert("Card clicked! Post ID: " + postId);
+}
 }
 
 // Upvote Function
