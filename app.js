@@ -7,7 +7,7 @@ function toggleModal() {
     document.getElementById('postModal').classList.toggle('hidden');
 }
 
-// Fetch Posts
+// Fetch Posts from Supabase
 async function fetchPosts() {
     const container = document.getElementById('postsContainer');
     const { data: posts, error } = await supabase
@@ -15,7 +15,7 @@ async function fetchPosts() {
         .select('*, mulund_areas(area_name)')
         .order('upvotes_count', { ascending: false });
 
-    if (error || !posts) {
+    if (error || !posts || posts.length === 0) {
         container.innerHTML = `<p class="text-slate-500 text-center py-10">No issues posted yet!</p>`;
         return;
     }
@@ -35,14 +35,14 @@ async function fetchPosts() {
         const mailLink = `mailto:ac.t@mcgm.gov.in?subject=${mailSubject}&body=${mailBody}`;
 
         return `
-            <div onclick="openIssueModal(${post.post_id})" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3 cursor-pointer active:scale-[0.99] transition">
+            <div data-id="${post.post_id}" class="issue-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3 cursor-pointer active:scale-[0.99] transition">
                 <div class="flex items-start justify-between">
                     <div>
                         <span class="text-[10px] font-bold bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full uppercase">${post.category}</span>
                         <h3 class="font-bold text-slate-800 text-sm mt-1">${post.title}</h3>
                         <p class="text-xs text-slate-500">📍 ${post.mulund_areas?.area_name || 'Mulund'}</p>
                     </div>
-                    <button onclick="event.stopPropagation(); upvotePost(${post.post_id}, ${post.upvotes_count})" class="bg-slate-100 p-2 rounded-lg text-center min-w-[40px]">
+                    <button onclick="upvotePost(event, ${post.post_id}, ${post.upvotes_count})" class="bg-slate-100 p-2 rounded-lg text-center min-w-[40px]">
                         <span class="text-xs font-bold text-blue-600">▲ ${post.upvotes_count}</span>
                     </button>
                 </div>
@@ -69,11 +69,6 @@ async function fetchPosts() {
     }).join('');
 }
 
-function openIssueModal(postId) {
-    alert("Card clicked! Post ID: " + postId);
-}
-
-
 // Handle New Post Submission
 async function handleFormSubmit(e) {
     e.preventDefault();
@@ -88,16 +83,24 @@ async function handleFormSubmit(e) {
     document.getElementById('issueForm').reset();
     toggleModal();
     fetchPosts();
-    { // Handle Card Click (Shows alert so we know it's working)
-function openIssueModal(postId) {
-    alert("Card clicked! Post ID: " + postId);
-}
 }
 
-// Upvote Function
-async function upvotePost(postId, currentUpvotes) {
+// Upvote Function (with stopPropagation to prevent card tap)
+async function upvotePost(event, postId, currentUpvotes) {
+    event.stopPropagation();
     await supabase.from('posts').update({ upvotes_count: currentUpvotes + 1 }).eq('post_id', postId);
     fetchPosts();
 }
 
+// Bulletproof Mobile Touch / Click Listener for Issue Cards
+document.addEventListener('pointerdown', (e) => {
+    const card = e.target.closest('.issue-card');
+    if (!card) return;
+
+    const postId = card.getAttribute('data-id');
+    alert("Card successfully tapped! Post ID: " + postId);
+    // You can replace this alert later with your modal viewer function
+});
+
+// Initial Load
 fetchPosts();
