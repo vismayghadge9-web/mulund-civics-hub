@@ -6,62 +6,69 @@
     <title>Mulund Civic Hub</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase JS CDN -->
+    <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-100 min-h-screen pb-20">
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-20">
 
-    <!-- Mobile Header -->
-    <header class="bg-slate-900 text-white p-4 sticky top-0 z-50 shadow-md">
-        <div class="flex justify-between items-center max-w-md mx-auto">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-[#0284c7] to-[#1e1b4b] text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-lg font-bold">Mulund Civic Hub</h1>
-                <p class="text-xs text-slate-400">T-Ward Community Action</p>
+                <h1 class="font-bold text-lg">Mulund Civic Hub</h1>
+                <p class="text-xs text-sky-200">Community Issue Tracker</p>
             </div>
-            <button onclick="toggleModal()" class="bg-blue-600 text-xs px-3 py-2 rounded-lg font-bold">+ Issue</button>
+            <button onclick="toggleModal()" class="bg-[#38bdf8] text-slate-900 font-bold px-3 py-1.5 rounded-lg text-xs shadow">
+                + Post Issue
+            </button>
         </div>
     </header>
 
-    <!-- Issue Feed Container -->
-    <main class="max-w-md mx-auto p-4 space-y-4" id="postsContainer">
-        <p class="text-center text-slate-500 py-10">Loading Mulund issues...</p>
+    <!-- Main Container -->
+    <main class="max-w-md mx-auto p-4 space-y-4">
+        <div id="postsContainer" class="space-y-4">
+            <p class="text-center text-slate-400 py-10">Loading issues...</p>
+        </div>
     </main>
 
-    <!-- Post Modal -->
-    <div id="postModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-2xl p-5 space-y-3">
+    <!-- Modal for New Post -->
+    <div id="postModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-5 space-y-4 shadow-xl">
             <div class="flex justify-between items-center">
-                <h2 class="text-base font-bold text-slate-800">Raise a Local Issue</h2>
-                <button onclick="toggleModal()" class="text-slate-400 font-bold text-lg">&times;</button>
+                <h2 class="font-bold text-base text-slate-800">Report New Issue</h2>
+                <button onclick="toggleModal()" class="text-slate-400 font-bold text-lg">✕</button>
             </div>
-            
             <form id="issueForm" onsubmit="handleFormSubmit(event)" class="space-y-3">
-                <input type="text" id="title" required placeholder="Title (e.g. Garbage dump near station)" class="w-full border p-2 rounded-lg text-xs">
-                
-                <select id="category" class="w-full border p-2 rounded-lg text-xs">
-                    <option>Roads & Traffic</option>
-                    <option>Sanitation & Garbage</option>
-                    <option>Streetlights</option>
-                    <option>Water Supply</option>
-                </select>
-
-                <select id="areaId" class="w-full border p-2 rounded-lg text-xs">
-                    <option value="1">LBS Marg (West)</option>
-                    <option value="2">MG Road / Station (West)</option>
-                    <option value="3">PK Road (West)</option>
-                    <option value="4">Navghar Road (East)</option>
-                    <option value="5">Neelam Nagar (East)</option>
-                </select>
-
-                <textarea id="description" required rows="3" placeholder="Provide details..." class="w-full border p-2 rounded-lg text-xs"></textarea>
-                
-                <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-xs">
-                    Submit Issue
-                </button>
+                <div>
+                    <label class="text-xs font-bold text-slate-600">Issue Title</label>
+                    <input type="text" id="title" required class="w-full border border-slate-200 rounded-lg p-2.5 text-xs mt-1" placeholder="e.g., Pothole near station">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600">Category</label>
+                    <select id="category" class="w-full border border-slate-200 rounded-lg p-2.5 text-xs mt-1">
+                        <option value="Roads">Roads & Potholes</option>
+                        <option value="Garbage">Garbage & Cleanliness</option>
+                        <option value="Water">Water Supply</option>
+                        <option value="Streetlights">Streetlights</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600">Mulund Area</label>
+                    <select id="areaId" class="w-full border border-slate-200 rounded-lg p-2.5 text-xs mt-1">
+                        <option value="1">Mulund West</option>
+                        <option value="2">Mulund East</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600">Description</label>
+                    <textarea id="description" required rows="3" class="w-full border border-slate-200 rounded-lg p-2.5 text-xs mt-1" placeholder="Describe the problem..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs shadow">Submit Issue</button>
             </form>
         </div>
     </div>
 
+    <!-- JavaScript File -->
     <script src="app.js"></script>
 </body>
 </html>
