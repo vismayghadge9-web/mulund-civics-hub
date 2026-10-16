@@ -69,11 +69,10 @@ async function fetchPosts() {
     }).join('');
 }
 
-// Handle Card Click (Opens details or logs ID)
 function openIssueModal(postId) {
-    console.log("Issue card clicked:", postId);
-    // You can expand this function later to show a detailed view modal if needed!
+    alert("Card clicked! Post ID: " + postId);
 }
+
 
 // Handle New Post Submission
 async function handleFormSubmit(e) {
