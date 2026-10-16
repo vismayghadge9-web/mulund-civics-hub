@@ -1,5 +1,5 @@
-const SUPABASE_URL = "https://fcebjglductrxtkmcpyx.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_SgRDbSWc7KWJVUq6X1Vx9w_xX9XBOZl";
+const SUPABASE_URL = "https://fcebjglductrxtkmcpyx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_5gRDb5wC7KWjVUq6X1Vx9w_x9XBOZl";
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -35,14 +35,14 @@ async function fetchPosts() {
         const mailLink = `mailto:ac.t@mcgm.gov.in?subject=${mailSubject}&body=${mailBody}`;
 
         return `
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
+            <div onclick="openIssueModal(${post.post_id})" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3 cursor-pointer active:scale-[0.99] transition">
                 <div class="flex items-start justify-between">
                     <div>
                         <span class="text-[10px] font-bold bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full uppercase">${post.category}</span>
                         <h3 class="font-bold text-slate-800 text-sm mt-1">${post.title}</h3>
                         <p class="text-xs text-slate-500">📍 ${post.mulund_areas?.area_name || 'Mulund'}</p>
                     </div>
-                    <button onclick="upvotePost(${post.post_id}, ${post.upvotes_count})" class="bg-slate-100 p-2 rounded-lg text-center min-w-[40px]">
+                    <button onclick="event.stopPropagation(); upvotePost(${post.post_id}, ${post.upvotes_count})" class="bg-slate-100 p-2 rounded-lg text-center min-w-[40px]">
                         <span class="text-xs font-bold text-blue-600">▲ ${post.upvotes_count}</span>
                     </button>
                 </div>
@@ -60,13 +60,19 @@ async function fetchPosts() {
                 </div>
 
                 ${isReady ? `
-                    <a href="${mailLink}" class="block text-center bg-blue-600 text-white font-bold text-xs py-2 rounded-lg shadow">
+                    <a href="${mailLink}" onclick="event.stopPropagation()" class="block text-center bg-blue-600 text-white font-bold text-xs py-2 rounded-lg shadow">
                         📧 Send Pre-filled Notice to BMC T-Ward
                     </a>
                 ` : ''}
             </div>
         `;
     }).join('');
+}
+
+// Handle Card Click (Opens details or logs ID)
+function openIssueModal(postId) {
+    console.log("Issue card clicked:", postId);
+    // You can expand this function later to show a detailed view modal if needed!
 }
 
 // Handle New Post Submission
