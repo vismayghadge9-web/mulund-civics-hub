@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://fcebjglductrxtkmcpyx.supabase.co";
-const SUPABASE_KEY = "sb_publishable_5gRDb5wC7KWjVUq6X1Vx9w_x9XBOZl";
+const SUPABASE_KEY = "https://fcebjglductrxtkmcpyx.supabase.co/rest/v1/";
 
 let db = null;
 let isSubmitting = false;
